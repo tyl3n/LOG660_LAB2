@@ -1,4 +1,5 @@
 import java.math.BigDecimal;
+import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -7,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
@@ -18,7 +20,7 @@ public class MovieInfoBroker {
 		this.session = session;
 	}
 	
-	public Movie[] getMoviesFromCriteria(String[] titleKeywords,
+	public MovieInfoDTO[] getMoviesFromCriteria(String[] titleKeywords,
 			String[] countryKeywords,
 			String[] languageKeywords,
 			String[] genreKeywords,
@@ -101,10 +103,26 @@ public class MovieInfoBroker {
 		if (maxYear != null) {
 			andQuery.add(Restrictions.le("m.releaseyear", new BigDecimal(maxYear.intValue())));
 		}
-		
+
 		movieCriteria.add(andQuery);
 		movieCriteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		movieCriteria.addOrder(Order.asc("m.title"));
 
-		return (Movie[])movieCriteria.list().toArray(new Movie[0]);
+		List movieList = movieCriteria.list();
+		Iterator iter = movieList.iterator();
+		MovieInfoDTO[] movieInfoDTOList = new MovieInfoDTO[movieList.size()];
+		
+		int i = 0;
+		while (iter.hasNext()) {
+			Movie movie = (Movie)iter.next();
+			movieInfoDTOList[i] = new MovieInfoDTO(movie.getMovieid(),
+					movie.getTitle(),
+					movie.getReleaseyear().intValueExact(),
+					movie.getCrewmember().getFirstname() + ' ' + movie.getCrewmember().getLastname()
+			);
+			i++;
+		}
+		
+		return movieInfoDTOList;
 	}
 }

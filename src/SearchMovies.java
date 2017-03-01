@@ -118,7 +118,7 @@ public class SearchMovies extends javax.swing.JFrame {
 					maxYear = null;
 				}
 				
-				Movie[] movies = movieInfoBroker.getMoviesFromCriteria(titleKeywords, countryKeywords, languageKeywords, genreKeywords, directorKeywords, actorKeywords, minYear, maxYear);
+				MovieInfoDTO[] movies = movieInfoBroker.getMoviesFromCriteria(titleKeywords, countryKeywords, languageKeywords, genreKeywords, directorKeywords, actorKeywords, minYear, maxYear);
 
 				for (int i = 0; i < movieInfoTableModel.getRowCount(); i++) {
 					movieInfoTableModel.removeRow(i);
@@ -128,10 +128,10 @@ public class SearchMovies extends javax.swing.JFrame {
 
 				movieInfoTableModel.setRowCount(0);
 
-				for (Movie movie : movies) {
-					Object[] rowData = {movie.getTitle(), movie.getReleaseyear(), movie.getCrewmember().getFirstname() + ' ' + movie.getCrewmember().getLastname()};
+				for (MovieInfoDTO movieInfoDTO : movies) {
+					Object[] rowData = {movieInfoDTO.title, movieInfoDTO.releaseYear, movieInfoDTO.directorName};
 					movieInfoTableModel.addRow(rowData);
-					listIDFilm.add(movie.getMovieid());
+					listIDFilm.add(movieInfoDTO.movieID);
 				}
 			}
         });
