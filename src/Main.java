@@ -1,4 +1,4 @@
-package DataAccessLayer;
+
 
 
 import java.util.ArrayList;
@@ -8,8 +8,6 @@ import java.util.Set;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-
-import DataTransferLayer.Movie;
 
 public class Main {
 

@@ -1,4 +1,4 @@
-package DataAccessLayer;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,8 +7,6 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
-
-import DataTransferLayer.Movie;
 
 public class MovieInfoBroker {
 	Session session;
