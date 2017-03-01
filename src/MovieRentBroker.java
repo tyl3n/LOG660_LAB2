@@ -1,9 +1,10 @@
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Disjunction;
@@ -23,7 +24,10 @@ public class MovieRentBroker {
 	public int insertRent(){
 		Subscription thisSub = getSubscription();
 		Client thisClient =  getUser();
-		Moviecopy thisCopy = GetMovieFromID(movieId);
+		MoviecopyId thisCopy = GetMovieFromID(movieId);
+		System.out.println("thisSub count"  + thisSub.getSubscriptiontype().getName());
+		System.out.println("thisClient count"  + thisClient.getSystemuser().getFirstname());
+		//System.out.println("thisCopy count"  + thisCopy.getMovie().getTitle());
 		if(thisSub == null)
 			return -1;
 		if(thisClient.getMoviecopies().size() >= thisSub.getSubscriptiontype().getMaxrentals().intValue())
@@ -32,7 +36,7 @@ public class MovieRentBroker {
 			return -3;
 		//Update Moviecopy Object
 		session.beginTransaction();
-		thisCopy.setClient(thisClient); 
+		thisCopy.setSystemuserid(thisClient.getSystemuserid()); 
 		//Save the Moviecopy in database
 		session.save(thisCopy);
 		//Commit the transaction
@@ -64,35 +68,30 @@ public class MovieRentBroker {
 			return null;
 	}
 	
-	public Moviecopy GetMovieFromID(BigDecimal movieId ) {
+	public MoviecopyId GetMovieFromID(BigDecimal movieId ) {
 		
-		
-		Criteria movieCriteria = session.createCriteria(Movie.class, "m");
-		//movieCriteria.createAlias("m.genres", "g");
-		//BigDecimal movieId = new BigDecimal(id);
-		//Conjunction andQuery = Restrictions.conjunction();
+		Criteria movieCriteria = session.createCriteria(MoviecopyId.class, "mc");
 		Disjunction orQuery = Restrictions.disjunction();
-		//orQuery.add(Restrictions.eq("m.title", title));
-		orQuery.add(Restrictions.eq("m.movieid",movieId));
+		Conjunction andQuery = Restrictions.conjunction();
+		MoviecopyId mcid = new MoviecopyId();
+		mcid.setMovieid(movieId);
+		andQuery.add(Restrictions.eq("mc.movieid",movieId));
+		andQuery.add(Restrictions.isNull("mc.systemuserid"));
 
-		
+		Query query = session.createQuery("from Moviecopy");
 		
 		//andQuery.add(orQuery);
-		movieCriteria.add(orQuery);
+		//movieCriteria.add(andQuery);
+		
+		List movies2 = query.list();
 		
 		List movies = movieCriteria.list();
 		
-		System.out.println(movies.size());
+		System.out.println("movie count"  + movies.size());
 		if (movies.size()>0)
 		{
-			Movie m = (Movie) movies.get(0);
-			Set<Moviecopy>  movieCopies = m.getMoviecopies();
-			for(Moviecopy mvc : movieCopies)
-			{
-				if(mvc.getClient() == null)
-					return mvc;
-			}
-			return null;			
+			MoviecopyId m = (MoviecopyId) movies.get(0);
+			return m;
 		}
 		else
 			return null;
