@@ -4,8 +4,20 @@
  * and open the template in the editor.
  */
 
+import java.awt.Color;
+import java.awt.LayoutManager;
+import java.math.BigDecimal;
+import java.util.Iterator;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+
+import org.hibernate.Session;
 
 /**
  *
@@ -16,16 +28,74 @@ public class ShowMovie extends javax.swing.JFrame {
     /**
      * Creates new form ShowMovie
      */
+	private Movie m;
+	private String title;
+	private int movieId;
+	DefaultListModel<String> listmodel = new DefaultListModel<>();
+	DefaultTableModel tablemodel = new DefaultTableModel(
+            new Object [][] {
+            },
+            new String [] {
+                "Actor", "Character"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        };
     private SearchMovies sm;
+    private Session session;
     public ShowMovie() {
         initComponents();
     }
-    public ShowMovie(SearchMovies movieList) {
+    public ShowMovie(SearchMovies movieList,Session s) {
         initComponents();
         this.sm = movieList;
-        new ShowMovie().setVisible(true);
+        this.session =s;
+        //new ShowMovie().setVisible(true);
     }
+    public ShowMovie(Session s,String title, int movieId) {
+        this.session =s;
+        this.title = title;
+        this.movieId = movieId;
+    	initComponents();
+    	FillUpForm(title,movieId);
+    	this.setVisible(true);
+        //this.sm = movieList;
+        //new ShowMovie().setVisible(true);
+    }
+    
+    public void FillUpForm(String title, int movieId) {
+    	MovieDetailBroker movieDetailBroker = new MovieDetailBroker(session);
+    	m = movieDetailBroker.GetMovieFromIDOrTitle(movieId, title);
+    	System.out.println("Title :" + m.getTitle());
+        titleLabel.setText(m.getTitle());
+        directorLabel.setText(m.getCrewmember().getFirstname());
+        yearLabel.setText(m.getReleaseyear().toPlainString());
+        Iterator iMovieActor = m.getMovieactors().iterator();
+        //Iterator iMovieActorId = m.getMovieactors_1().iterator();
+        while(iMovieActor.hasNext())
+        {
+            Movieactor movieActor = (Movieactor) iMovieActor.next();
+            //MovieactorId movieActorId = (MovieactorId) iMovieActorId.next();
+            Crewmember cm = movieActor.getCrewmember();
+            Object[]  rowData = {cm.getFirstname(), movieActor.getId().getCharacter()};
+            tablemodel.addRow(rowData);
+        }
 
+    	//titleLabel.setText("Title");
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -60,11 +130,11 @@ public class ShowMovie extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        actorList.setModel(new javax.swing.AbstractListModel<String>() {
+        actorList.setModel(listmodel);/*new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
-        });
+        });*/
         jScrollPane1.setViewportView(actorList);
 
         jTextArea1.setEditable(false);
@@ -104,7 +174,7 @@ public class ShowMovie extends javax.swing.JFrame {
 
         jLabel6.setText("Country of filming");
 
-        titleLabel.setText("jLabel7");
+        //FillUpForm(title,movieId);
 
         writerList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -117,36 +187,11 @@ public class ShowMovie extends javax.swing.JFrame {
 
         jLabel9.setText("Release Year");
 
-        yearLabel.setText("jLabel2");
+        //yearLabel.setText("jLabel2");
 
         rentButton.setLabel("Rent Movie");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Actor", "Character"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        jTable1.setModel(tablemodel);
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable1MouseClicked(evt);
@@ -276,7 +321,7 @@ public class ShowMovie extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    /*public static void main(String args[]) {
+    /*public static void init(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {

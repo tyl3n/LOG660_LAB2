@@ -5,6 +5,8 @@
  */
 import javax.swing.JTable;
 
+import org.hibernate.Session;
+
 /**
  *
  * @author jeanym
@@ -14,6 +16,7 @@ public class SearchMovies extends javax.swing.JFrame {
     /**
      * Creates new form SearchMovies
      */
+	private Session session;
     SearchMovies sm;
     public SearchMovies() {
         initComponents();
@@ -222,7 +225,7 @@ public class SearchMovies extends javax.swing.JFrame {
         if (evt.getClickCount() == 2) {
            JTable target = (JTable)evt.getSource();
            int row = target.getSelectedRow();
-           new ShowMovie(this);
+           new ShowMovie(this,session);
            sm.setVisible(false);
            dispose();
         }
