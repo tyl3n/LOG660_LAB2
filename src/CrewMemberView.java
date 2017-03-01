@@ -37,12 +37,12 @@ public class CrewMemberView extends javax.swing.JFrame {
     	c = cmdb.GetCrewmemberById(id);
     	if(c != null)
     	{
-    		labelName.setText(c.getFirstname());
+    		labelName.setText(c.getFirstname() +" "+ c.getLastname());
     		labelBirthdate.setText(c.getBirthdate().toString());
     		labelBirthplace.setText(c.getBirthplace().toString());
-    		//ArrayList<Biography> listDeString = new ArrayList<Biography>(c.getBiographies());
-    		//if (listDeString.size()>0)
-    		//textAreaBiography.setText(listDeString.get(0).getId().getDescription().toString());
+    		/*ArrayList<Biography> listDeString = new ArrayList<Biography>(c.getBiographies());
+    		if (listDeString.size()>0)
+    			textAreaBiography.setText(listDeString.get(0).getId().getDescription().toString());*/
     	}
     	
     }

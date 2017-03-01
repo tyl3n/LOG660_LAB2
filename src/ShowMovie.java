@@ -13,6 +13,7 @@ import java.util.Iterator;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -31,7 +32,7 @@ public class ShowMovie extends javax.swing.JFrame {
      */
 	private Movie m;
 	private String title;
-	private int movieId;
+	private BigDecimal movieId;
 	ArrayList<BigDecimal> listIDCrewmember;
 	DefaultListModel<String> countrylistmodel = new DefaultListModel<>();
 	DefaultListModel<String> writerlistmodel = new DefaultListModel<>();
@@ -60,16 +61,21 @@ public class ShowMovie extends javax.swing.JFrame {
         };
     private SearchMovies sm;
     private Session session;
+    private Systemuser thisLogin;
     public ShowMovie() {
         initComponents();
     }
-    public ShowMovie(SearchMovies movieList,Session s) {
-        initComponents();
-        this.sm = movieList;
+    public ShowMovie(SearchMovies movieList,Session s, BigDecimal movieId, Systemuser Login) {
         this.session =s;
+        this.sm = movieList;
+        this.movieId = movieId;
+        this.thisLogin = Login;
+    	initComponents();
+    	FillUpForm("",movieId);
+    	this.setVisible(true);
         //new ShowMovie().setVisible(true);
     }
-    public ShowMovie(Session s,String title, int movieId) {
+    public ShowMovie(Session s,String title, BigDecimal movieId) {
         this.session =s;
         this.title = title;
         this.movieId = movieId;
@@ -80,12 +86,29 @@ public class ShowMovie extends javax.swing.JFrame {
         //new ShowMovie().setVisible(true);
     }
     
-    public void FillUpForm(String title, int movieId) {
+    public void rentMovie(BigDecimal userId, BigDecimal movieId) {
+    	MovieRentBroker movieRentBroker = new MovieRentBroker(session, userId, movieId);
+    	int reantResult = movieRentBroker.insertRent();
+    	if(reantResult == -1) {
+	            JOptionPane.showMessageDialog(this, "No subscription for this user.");
+	            }
+    	else if  (reantResult == -2) {
+	            JOptionPane.showMessageDialog(this, "This user has reached the maximum number of movies he can rent.");
+	            }
+    	else if  (reantResult == -3) {
+	            JOptionPane.showMessageDialog(this, "This movie is not avaible for renting.");
+	            }
+    	else if  (reantResult == 0) {}
+       
+
+    	//titleLabel.setText("Title");
+    }    
+    public void FillUpForm(String title, BigDecimal movieId) {
     	MovieDetailBroker movieDetailBroker = new MovieDetailBroker(session);
-    	m = movieDetailBroker.GetMovieFromIDOrTitle(movieId, title);
+    	m = movieDetailBroker.GetMovieFromID(movieId);
     	System.out.println("Title :" + m.getTitle());
         titleLabel.setText(m.getTitle());
-        directorLabel.setText(m.getCrewmember().getFirstname());
+        directorLabel.setText(m.getCrewmember().getFirstname() + " " +m.getCrewmember().getLastname());
         yearLabel.setText(m.getReleaseyear().toPlainString());
         Iterator iMovieActor = m.getMovieactors().iterator();
         //Iterator iMovieActorId = m.getMovieactors_1().iterator();
@@ -204,7 +227,11 @@ public class ShowMovie extends javax.swing.JFrame {
         //yearLabel.setText("jLabel2");
 
         rentButton.setLabel("Rent Movie");
-
+        rentButton.addActionListener(new java.awt.event.ActionListener() {
+        	  public void actionPerformed(java.awt.event.ActionEvent evt) {
+        	   rentButtonActionPerformed(evt);
+        	  }
+        	 });
         actorTable.setModel(actorTableModel);
         actorTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -306,7 +333,7 @@ public class ShowMovie extends javax.swing.JFrame {
        if(sm == null ) {           
             java.awt.EventQueue.invokeLater(new Runnable() {
                 public void run() {
-                    new SearchMovies(session);
+                    new SearchMovies(session, thisLogin);
                 }
             });
         }else
@@ -326,13 +353,17 @@ public class ShowMovie extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_actorTableMouseClicked
 
+    private void rentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_directorLabelMouseClicked
+        // TODO add your handling code here:r
+    	rentMovie( thisLogin.getSystemuserid(),m.getMovieid());
+    }
     private void directorLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_directorLabelMouseClicked
         // TODO add your handling code here:
         if (evt.getClickCount() == 2) {
-           new CrewMemberView().setVisible(true);
+           new CrewMemberView(session,m.getCrewmember().getCrewmemberid()).setVisible(true);
         }
     }//GEN-LAST:event_directorLabelMouseClicked
-
+    
     /**
      * @param args the command line arguments
      */

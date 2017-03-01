@@ -1,4 +1,5 @@
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ Session session;
 		this.session = session;
 	}
 	
-	public boolean IsValidLoginInfo(String email,String password) {
+	public Systemuser IsValidLoginInfo(String email,String password) {
 		
 		Criteria loginCriteria = session.createCriteria(Systemuser.class, "s");
 		//movieCriteria.createAlias("s.genres", "g");
@@ -36,6 +37,13 @@ Session session;
 		System.out.println(email);
 		System.out.println(password);
 		
-		return logins.size() > 0;
+		System.out.println(logins.size());
+		if (logins.size()>0)
+		{
+			Systemuser m = (Systemuser) logins.get(0);
+			return (Systemuser) logins.get(0);
+		}
+		else
+			return null;
 	}
 }

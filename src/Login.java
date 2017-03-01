@@ -124,25 +124,26 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.out.println(PasswordField.getText());
         System.out.println(userTextField.getText());
+		String username = userTextField.getText();
+		String password = PasswordField.getText();
 
-        if(PasswordField.getText() != "" && userTextField.getText() != "" && !PasswordField.getText().isEmpty() && !userTextField.getText().isEmpty()) 
+        if(username != "" && !username.isEmpty()) 
         
         {
      			
-     			String username = userTextField.getText();
-     			String password = PasswordField.getText();
      			
      			UserInfoBroker userInfoBroker = new UserInfoBroker(session);
-     			
-     			if(userInfoBroker.IsValidLoginInfo(username, password))
+     			Systemuser thisLogin = userInfoBroker.IsValidLoginInfo(username, password);
+     			if(thisLogin != null)
      			{
      		        java.awt.EventQueue.invokeLater(new Runnable() {
      		            public void run() {
-     		                new SearchMovies(session);
+     		                new SearchMovies(session,thisLogin);
      		            }
      		        });
      		        this.dispose();
-     			}
+     			}else
+     	            JOptionPane.showMessageDialog(this, "Combinaison of username and password invalid.");
         }else {
             JOptionPane.showMessageDialog(this, "Please enter a correct username and password.");
         }

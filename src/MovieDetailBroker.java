@@ -14,14 +14,14 @@ public class MovieDetailBroker {
 		this.session = session;
 	}
 	
-	public Movie GetMovieFromIDOrTitle(int id, String title ) {
+	public Movie GetMovieFromID(BigDecimal movieId ) {
 		
 		Criteria movieCriteria = session.createCriteria(Movie.class, "m");
 		//movieCriteria.createAlias("m.genres", "g");
-		BigDecimal movieId = new BigDecimal(id);
+		//BigDecimal movieId = new BigDecimal(id);
 		//Conjunction andQuery = Restrictions.conjunction();
 		Disjunction orQuery = Restrictions.disjunction();
-		orQuery.add(Restrictions.eq("m.title", title));
+		//orQuery.add(Restrictions.eq("m.title", title));
 		orQuery.add(Restrictions.eq("m.movieid",movieId));
 
 		

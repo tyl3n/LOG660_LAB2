@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 import java.awt.event.ActionEvent;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -16,7 +18,8 @@ import org.hibernate.Session;
  */
 public class SearchMovies extends javax.swing.JFrame {
 	Session session;
-	
+	Systemuser thisLogin;
+	ArrayList<BigDecimal> listIDFilm = new ArrayList<BigDecimal>();
 	DefaultTableModel movieInfoTableModel = new DefaultTableModel(
             new Object [][] {
             },
@@ -41,11 +44,12 @@ public class SearchMovies extends javax.swing.JFrame {
      * Creates new form SearchMovies
      */
     SearchMovies sm;
-    public SearchMovies(Session session) {
+    public SearchMovies(Session session, Systemuser Login) {
         initComponents();
         sm = this;
         sm.setVisible(true);
         this.session = session;
+        this.thisLogin = Login;
     }
 
     /**
@@ -118,10 +122,11 @@ public class SearchMovies extends javax.swing.JFrame {
 				for (int i = 0; i < movieInfoTableModel.getRowCount(); i++) {
 					movieInfoTableModel.removeRow(i);
 				}
-				
+				listIDFilm.clear();
 				for (Movie movie : movies) {
 					Object[] rowData = {movie.getTitle(), movie.getReleaseyear(), movie.getCrewmember().getFirstname() + ' ' + movie.getCrewmember().getLastname()};
 					movieInfoTableModel.addRow(rowData);
+					listIDFilm.add(movie.getMovieid());
 				}
 				
 				System.out.println("MovieCount: " + movies.length);
@@ -266,9 +271,11 @@ public class SearchMovies extends javax.swing.JFrame {
         if (evt.getClickCount() == 2) {
            JTable target = (JTable)evt.getSource();
            int row = target.getSelectedRow();
-           new ShowMovie(this,session);
-           sm.setVisible(false);
-           dispose();
+           BigDecimal movieId =listIDFilm.get(row);
+           new ShowMovie(this,session,movieId, thisLogin);
+           this.setVisible(false);
+           //sm.setVisible(false);
+           //dispose();
         }
     }//GEN-LAST:event_moviesTableMouseClicked
 
