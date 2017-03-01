@@ -95,7 +95,7 @@ public class ShowMovie extends javax.swing.JFrame {
             Movieactor movieActor = (Movieactor) iMovieActor.next();
             //MovieactorId movieActorId = (MovieactorId) iMovieActorId.next();
             Crewmember cm = movieActor.getCrewmember();
-            Object[]  rowData = {cm.getFirstname(), movieActor.getId().getCharacter(), movieActor.getCrewmember().getCrewmemberid()};
+            Object[]  rowData = {cm.getFirstname() + " " +cm.getLastname(), movieActor.getId().getCharacter()};
             actorTableModel.addRow(rowData);
             listIDCrewmember.add(movieActor.getCrewmember().getCrewmemberid());
         }
