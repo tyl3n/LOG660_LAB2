@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 2017-02-28 18:17:33 by Hibernate Tools 4.3.1.Final -->
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 1, 2017 4:12:55 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="Crewmember" table="CREWMEMBER" optimistic-lock="version">
+    <class name="Crewmember" table="CREWMEMBER">
         <id name="crewmemberid" type="big_decimal">
             <column name="CREWMEMBERID" precision="22" scale="0" />
             <generator class="assigned" />
@@ -40,7 +40,7 @@
         </set>
         <set name="biographies" table="BIOGRAPHY" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="CREWMEMBERID" precision="22" scale="0" not-null="true" />
+                <column name="CREWMEMBERID" precision="22" scale="0" not-null="true" unique="true" />
             </key>
             <one-to-many class="Biography" />
         </set>

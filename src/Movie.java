@@ -1,4 +1,5 @@
-
+// default package
+// Generated Mar 1, 2017 4:12:55 PM by Hibernate Tools 3.4.0.CR1
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -10,8 +11,8 @@ import java.util.Set;
 public class Movie implements java.io.Serializable {
 
 	private BigDecimal movieid;
-	private Synopsis synopsis;
 	private Crewmember crewmember;
+	private Synopsis synopsis;
 	private String title;
 	private BigDecimal releaseyear;
 	private BigDecimal length;
@@ -32,12 +33,12 @@ public class Movie implements java.io.Serializable {
 		this.length = length;
 	}
 
-	public Movie(BigDecimal movieid, Synopsis synopsis, Crewmember crewmember, String title, BigDecimal releaseyear,
+	public Movie(BigDecimal movieid, Crewmember crewmember, Synopsis synopsis, String title, BigDecimal releaseyear,
 			BigDecimal length, String language, Set movieactors, Set moviecopies, Set genres, Set movieactors_1,
 			Set countries, Set scriptwriters) {
 		this.movieid = movieid;
-		this.synopsis = synopsis;
 		this.crewmember = crewmember;
+		this.synopsis = synopsis;
 		this.title = title;
 		this.releaseyear = releaseyear;
 		this.length = length;
@@ -58,20 +59,20 @@ public class Movie implements java.io.Serializable {
 		this.movieid = movieid;
 	}
 
-	public Synopsis getSynopsis() {
-		return this.synopsis;
-	}
-
-	public void setSynopsis(Synopsis synopsis) {
-		this.synopsis = synopsis;
-	}
-
 	public Crewmember getCrewmember() {
 		return this.crewmember;
 	}
 
 	public void setCrewmember(Crewmember crewmember) {
 		this.crewmember = crewmember;
+	}
+
+	public Synopsis getSynopsis() {
+		return this.synopsis;
+	}
+
+	public void setSynopsis(Synopsis synopsis) {
+		this.synopsis = synopsis;
 	}
 
 	public String getTitle() {

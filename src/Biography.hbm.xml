@@ -1,19 +1,18 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 2017-02-28 18:17:33 by Hibernate Tools 4.3.1.Final -->
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 1, 2017 4:12:55 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="Biography" table="BIOGRAPHY" optimistic-lock="version">
-        <composite-id name="id" class="BiographyId">
-            <key-property name="crewmemberid" type="big_decimal">
-                <column name="CREWMEMBERID" precision="22" scale="0" />
-            </key-property>
-            <key-property name="description" type="clob">
-                <column name="DESCRIPTION" />
-            </key-property>
-        </composite-id>
-        <many-to-one name="crewmember" class="Crewmember" update="false" insert="false" fetch="select">
-            <column name="CREWMEMBERID" precision="22" scale="0" not-null="true" />
+    <class name="Biography" table="BIOGRAPHY">
+        <id name="biographyid" type="big_decimal">
+            <column name="BIOGRAPHYID" precision="22" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="crewmember" class="Crewmember" fetch="select">
+            <column name="CREWMEMBERID" precision="22" scale="0" not-null="true" unique="true" />
         </many-to-one>
+        <property name="description" type="clob">
+            <column name="DESCRIPTION" not-null="true" />
+        </property>
     </class>
 </hibernate-mapping>

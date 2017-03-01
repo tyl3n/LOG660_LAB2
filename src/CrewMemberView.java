@@ -1,5 +1,14 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.io.StringWriter;
 import java.math.BigDecimal;
+import java.sql.Clob;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.xml.soap.Text;
 
@@ -39,12 +48,48 @@ public class CrewMemberView extends javax.swing.JFrame {
     	{
     		labelName.setText(c.getFirstname() +" "+ c.getLastname());
     		labelBirthdate.setText(c.getBirthdate().toString());
+    		Set<Biography> gdfg = c.getBiographies();
     		labelBirthplace.setText(c.getBirthplace().toString());
-    		/*ArrayList<Biography> listDeString = new ArrayList<Biography>(c.getBiographies());
-    		if (listDeString.size()>0)
-    			textAreaBiography.setText(listDeString.get(0).getId().getDescription().toString());*/
+    		
+    		Iterator<Biography> listDeString = c.getBiographies().iterator();
+    		if (listDeString.hasNext()) {
+				Clob desc = listDeString.next().getDescription();
+				textAreaBiography.setText(clobToString(desc));
+			}
     	}
     	
+    }
+    /*********************************************************************************************
+     * From CLOB to String
+     * @return string representation of clob
+     *********************************************************************************************/
+    private String clobToString(java.sql.Clob data)
+    {
+        final StringBuilder sb = new StringBuilder();
+
+        try
+        {
+            final Reader         reader = data.getCharacterStream();
+            final BufferedReader br     = new BufferedReader(reader);
+
+            int b;
+            while(-1 != (b = br.read()))
+            {
+                sb.append((char)b);
+            }
+
+            br.close();
+        }
+        catch (SQLException e)
+        {
+            return e.toString();
+        }
+        catch (IOException e)
+        {
+            return e.toString();
+        }
+
+        return sb.toString();
     }
     /**
      * This method is called from within the constructor to initialize the form.

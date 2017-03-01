@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 2017-02-28 18:17:33 by Hibernate Tools 4.3.1.Final -->
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 1, 2017 4:12:55 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="Client" table="CLIENT" optimistic-lock="version">
+    <class name="Client" table="CLIENT">
         <id name="systemuserid" type="big_decimal">
             <column name="SYSTEMUSERID" precision="22" scale="0" />
             <generator class="foreign">
                 <param name="property">systemuser</param>
             </generator>
         </id>
-        <one-to-one name="systemuser" class="Systemuser" constrained="true"></one-to-one>
         <many-to-one name="creditcard" class="Creditcard" fetch="select">
             <column name="CREDITCARDID" precision="22" scale="0" not-null="true" />
         </many-to-one>
+        <one-to-one name="systemuser" class="Systemuser" constrained="true"></one-to-one>
         <many-to-one name="subscription" class="Subscription" fetch="select">
             <column name="SUBSCRIPTIONID" precision="22" scale="0" not-null="true" />
         </many-to-one>

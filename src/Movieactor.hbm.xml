@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 2017-02-28 18:17:33 by Hibernate Tools 4.3.1.Final -->
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 1, 2017 4:12:55 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="Movieactor" table="MOVIEACTOR" optimistic-lock="version">
+    <class name="Movieactor" table="MOVIEACTOR">
         <composite-id name="id" class="MovieactorId">
             <key-property name="movieid" type="big_decimal">
                 <column name="MOVIEID" precision="22" scale="0" />
@@ -15,11 +15,11 @@
                 <column name="CHARACTER" />
             </key-property>
         </composite-id>
-        <many-to-one name="movie" class="Movie" update="false" insert="false" fetch="select">
-            <column name="MOVIEID" precision="22" scale="0" not-null="true" />
-        </many-to-one>
         <many-to-one name="crewmember" class="Crewmember" update="false" insert="false" fetch="select">
             <column name="ACTORID" precision="22" scale="0" not-null="true" />
+        </many-to-one>
+        <many-to-one name="movie" class="Movie" update="false" insert="false" fetch="select">
+            <column name="MOVIEID" precision="22" scale="0" not-null="true" />
         </many-to-one>
     </class>
 </hibernate-mapping>

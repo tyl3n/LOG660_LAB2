@@ -23,9 +23,10 @@ public class MovieRentBroker {
 	public int insertRent(){
 		Subscription thisSub = getSubscription();
 		Client thisClient =  getUser();
+		session.refresh(thisClient);
 		Moviecopy thisCopy = GetMovieFromID(movieId);
-		System.out.println("thisSub count"  + thisSub.getSubscriptiontype().getName());
-		System.out.println("thisClient count"  + thisClient.getSystemuser().getFirstname());
+		System.out.println("thisSub count"  + thisSub.getSubscriptiontype().getMaxrentals().intValue());
+		System.out.println("thisClient count"  + thisClient.getMoviecopies().size());
 		//System.out.println("thisCopy count"  + thisCopy.getMovie().getTitle());
 		if(thisSub == null)
 			return -1;
@@ -35,7 +36,8 @@ public class MovieRentBroker {
 			return -3;
 		//Update Moviecopy Object
 		session.beginTransaction();
-		thisCopy.setClient(thisClient); 
+		thisCopy.setClient(thisClient);
+		thisCopy.setRentaldate(new Date());
 		//Save the Moviecopy in database
 		session.save(thisCopy);
 		//Commit the transaction
@@ -72,15 +74,13 @@ public class MovieRentBroker {
 		Criteria movieCriteria = session.createCriteria(Moviecopy.class, "mc");
 		Disjunction orQuery = Restrictions.disjunction();
 		Conjunction andQuery = Restrictions.conjunction();
-		MoviecopyId mcid = new MoviecopyId();
-		mcid.setMovieid(movieId);
 		andQuery.add(Restrictions.eq("mc.movie.movieid",movieId));
 		andQuery.add(Restrictions.isNull("mc.client.systemuserid"));
 
 		
 		
 		//andQuery.add(orQuery);
-		//movieCriteria.add(andQuery);
+		movieCriteria.add(andQuery);
 		
 		List movies = movieCriteria.list();
 		

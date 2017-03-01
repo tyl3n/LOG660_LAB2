@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 2017-02-28 18:17:33 by Hibernate Tools 4.3.1.Final -->
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 1, 2017 4:12:55 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="Movie" table="MOVIE" optimistic-lock="version">
+    <class name="Movie" table="MOVIE">
         <id name="movieid" type="big_decimal">
             <column name="MOVIEID" precision="22" scale="0" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="synopsis" class="Synopsis" fetch="select">
-            <column name="SYNOPSISID" precision="22" scale="0" />
-        </many-to-one>
         <many-to-one name="crewmember" class="Crewmember" fetch="select">
             <column name="DIRECTORID" precision="22" scale="0" />
+        </many-to-one>
+        <many-to-one name="synopsis" class="Synopsis" fetch="select">
+            <column name="SYNOPSISID" precision="22" scale="0" />
         </many-to-one>
         <property name="title" type="string">
             <column name="TITLE" />

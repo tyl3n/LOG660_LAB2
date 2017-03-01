@@ -110,6 +110,8 @@ public class ShowMovie extends javax.swing.JFrame {
         titleLabel.setText(m.getTitle());
         directorLabel.setText(m.getCrewmember().getFirstname() + " " +m.getCrewmember().getLastname());
         yearLabel.setText(m.getReleaseyear().toPlainString());
+        langLabel.setText(m.getLanguage());
+        lengthLabel.setText(m.getLength().toPlainString());
         Iterator iMovieActor = m.getMovieactors().iterator();
         //Iterator iMovieActorId = m.getMovieactors_1().iterator();
         listIDCrewmember = new  ArrayList<BigDecimal>();
@@ -176,6 +178,10 @@ public class ShowMovie extends javax.swing.JFrame {
         rentButton = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
         actorTable = new javax.swing.JTable();
+        jLabelLang = new javax.swing.JLabel();
+        langLabel = new javax.swing.JLabel();
+        jLabelLength = new javax.swing.JLabel();
+        lengthLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -240,6 +246,14 @@ public class ShowMovie extends javax.swing.JFrame {
         });
         jScrollPane5.setViewportView(actorTable);
 
+        jLabelLang.setText("Language");
+
+        langLabel.setText("jLabel7");
+
+        jLabelLength.setText("Length");
+
+        lengthLabel.setText("jLabel7");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -266,12 +280,17 @@ public class ShowMovie extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
                                     .addComponent(jLabel1)
-                                    .addComponent(jLabel9))
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabelLang)
+                                    .addComponent(jLabelLength))
                                 .addGap(50, 50, 50)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(directorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(yearLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)	
+		                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+		                                    .addComponent(langLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+		                                    .addComponent(lengthLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+		                                    .addComponent(yearLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -302,6 +321,14 @@ public class ShowMovie extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
                             .addComponent(yearLabel))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelLang)
+                            .addComponent(langLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelLength)
+                            .addComponent(lengthLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
@@ -404,6 +431,10 @@ public class ShowMovie extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelLang;
+    private javax.swing.JLabel jLabelLength;
+    private javax.swing.JLabel langLabel;
+    private javax.swing.JLabel lengthLabel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

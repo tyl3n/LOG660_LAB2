@@ -1,31 +1,27 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 2017-02-28 18:17:33 by Hibernate Tools 4.3.1.Final -->
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 1, 2017 4:12:55 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="Moviecopy" table="MOVIECOPY" optimistic-lock="version">
-        <composite-id name="id" class="MoviecopyId">
-            <key-property name="movieid" type="big_decimal">
-                <column name="MOVIEID" precision="22" scale="0" />
-            </key-property>
-            <key-property name="systemuserid" type="big_decimal">
-                <column name="SYSTEMUSERID" precision="22" scale="0" />
-            </key-property>
-            <key-property name="moviecode" type="string">
-                <column name="MOVIECODE" />
-            </key-property>
-            <key-property name="availableamount" type="big_decimal">
-                <column name="AVAILABLEAMOUNT" precision="22" scale="0" />
-            </key-property>
-            <key-property name="rentaldate" type="date">
-                <column name="RENTALDATE" length="7" />
-            </key-property>
-        </composite-id>
-        <many-to-one name="movie" class="Movie" update="false" insert="false" fetch="select">
+    <class name="Moviecopy" table="MOVIECOPY">
+        <id name="moviecopyid" type="big_decimal">
+            <column name="MOVIECOPYID" precision="22" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="movie" class="Movie" fetch="select">
             <column name="MOVIEID" precision="22" scale="0" not-null="true" />
         </many-to-one>
-        <many-to-one name="client" class="Client" update="false" insert="false" fetch="select">
+        <many-to-one name="client" class="Client" fetch="select">
             <column name="SYSTEMUSERID" precision="22" scale="0" />
         </many-to-one>
+        <property name="moviecode" type="string">
+            <column name="MOVIECODE" />
+        </property>
+        <property name="availableamount" type="big_decimal">
+            <column name="AVAILABLEAMOUNT" precision="22" scale="0" not-null="true" />
+        </property>
+        <property name="rentaldate" type="date">
+            <column name="RENTALDATE" length="7" />
+        </property>
     </class>
 </hibernate-mapping>
