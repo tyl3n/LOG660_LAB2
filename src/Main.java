@@ -1,7 +1,12 @@
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Timer;
+
+import javax.swing.SwingUtilities;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -12,33 +17,16 @@ public class Main {
 		// TODO Auto-generated method stub
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction transaction = null;
+		//Transaction transaction = null;
 		Movie unFilm;
 		try {
-			//transaction = sessionHome.beginTransaction();
-			String FilmLenght;
-			String FilmTitle = null;
-			String FilmYear = null;
-			String FilmLang = null;
-			String FilmGenre = null;
-			String FilmScriptWriter;
-			String FilmDirector;
-			String FilmActor;
-			
-			MovieInfoBroker movieInfoBroker = new MovieInfoBroker(session);
-			
-			ArrayList<String> genreKeywords = new ArrayList<String>();
-			genreKeywords.add("Action");
-			
-			movieInfoBroker.getMoviesFromCriteria(null, null, null, genreKeywords, null, null, null, null);
-			
-			//transaction.commit();
+			ShowMovie sm  = new ShowMovie(session,"The Princess Bride", 0);
 
 		} catch (HibernateException e) {
-			transaction.rollback();
+			//transaction.rollback();
 			e.printStackTrace();
 		} finally {
-			session.close();
+			//session.close();
 		}
 	}
 
