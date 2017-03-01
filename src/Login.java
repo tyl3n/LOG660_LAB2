@@ -1,11 +1,13 @@
-package View;
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+
+
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -119,15 +121,49 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.out.println(PasswordField.getText());
         System.out.println(userTextField.getText());
-        if(PasswordField.getText() != "" && userTextField.getText() != "" && !PasswordField.getText().isEmpty() && !userTextField.getText().isEmpty()) {
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new SearchMovies();
-            }
-        });
         
-           this.dispose();
+       
+        
+        
+        
+        
+        if(PasswordField.getText() != "" && userTextField.getText() != "" && !PasswordField.getText().isEmpty() && !userTextField.getText().isEmpty()) 
+        
+        {
+        	
+        	
+        	Session session = HibernateUtil.getSessionFactory().openSession();
+        	Transaction transaction = null;
+     		try {
+     			//transaction = session.beginTransaction();
+     			String username = userTextField.getText();
+     			String password = PasswordField.getText();
+     			
+     			UserInfoBroker userInfoBroker = new UserInfoBroker(session);
+     			
+     			
+     			if(userInfoBroker.IsValidLoginInfo(username, password))
+     			{
+     		        java.awt.EventQueue.invokeLater(new Runnable() {
+     		            public void run() {
+     		                new SearchMovies();
+     		            }
+     		        });
+     		        this.dispose();
+     			}
+     			
+     			//transaction.commit();
+
+     		} catch (HibernateException e) {
+     			//transaction.rollback();
+     			e.printStackTrace();
+     		} finally {
+     			session.close();
+     		}
+        /* Create and display the form */
+
+        
+          
         }else {
             JOptionPane.showMessageDialog(this, "Please enter a correct username and password.");
         }
