@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Disjunction;
@@ -24,7 +23,7 @@ public class MovieRentBroker {
 	public int insertRent(){
 		Subscription thisSub = getSubscription();
 		Client thisClient =  getUser();
-		MoviecopyId thisCopy = GetMovieFromID(movieId);
+		Moviecopy thisCopy = GetMovieFromID(movieId);
 		System.out.println("thisSub count"  + thisSub.getSubscriptiontype().getName());
 		System.out.println("thisClient count"  + thisClient.getSystemuser().getFirstname());
 		//System.out.println("thisCopy count"  + thisCopy.getMovie().getTitle());
@@ -36,7 +35,7 @@ public class MovieRentBroker {
 			return -3;
 		//Update Moviecopy Object
 		session.beginTransaction();
-		thisCopy.setSystemuserid(thisClient.getSystemuserid()); 
+		thisCopy.setClient(thisClient); 
 		//Save the Moviecopy in database
 		session.save(thisCopy);
 		//Commit the transaction
@@ -68,29 +67,27 @@ public class MovieRentBroker {
 			return null;
 	}
 	
-	public MoviecopyId GetMovieFromID(BigDecimal movieId ) {
+	public Moviecopy GetMovieFromID(BigDecimal movieId ) {
 		
-		Criteria movieCriteria = session.createCriteria(MoviecopyId.class, "mc");
+		Criteria movieCriteria = session.createCriteria(Moviecopy.class, "mc");
 		Disjunction orQuery = Restrictions.disjunction();
 		Conjunction andQuery = Restrictions.conjunction();
 		MoviecopyId mcid = new MoviecopyId();
 		mcid.setMovieid(movieId);
-		andQuery.add(Restrictions.eq("mc.movieid",movieId));
-		andQuery.add(Restrictions.isNull("mc.systemuserid"));
+		andQuery.add(Restrictions.eq("mc.movie.movieid",movieId));
+		andQuery.add(Restrictions.isNull("mc.client.systemuserid"));
 
-		Query query = session.createQuery("from Moviecopy");
+		
 		
 		//andQuery.add(orQuery);
 		//movieCriteria.add(andQuery);
-		
-		List movies2 = query.list();
 		
 		List movies = movieCriteria.list();
 		
 		System.out.println("movie count"  + movies.size());
 		if (movies.size()>0)
 		{
-			MoviecopyId m = (MoviecopyId) movies.get(0);
+			Moviecopy m = (Moviecopy) movies.get(0);
 			return m;
 		}
 		else
