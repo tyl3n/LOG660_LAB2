@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-02-28 18:17:33 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="Subscriptiontype" table="SUBSCRIPTIONTYPE" optimistic-lock="version">
+        <id name="subscriptiontypeid" type="string">
+            <column name="SUBSCRIPTIONTYPEID" length="1" />
+            <generator class="assigned" />
+        </id>
+        <property name="name" type="string">
+            <column name="NAME" length="20" not-null="true" />
+        </property>
+        <property name="cost" type="big_decimal">
+            <column name="COST" precision="22" not-null="true" />
+        </property>
+        <property name="maxrentals" type="big_decimal">
+            <column name="MAXRENTALS" precision="22" scale="0" not-null="true" />
+        </property>
+        <property name="maxlength" type="big_decimal">
+            <column name="MAXLENGTH" precision="22" scale="0" />
+        </property>
+        <set name="subscriptions" table="SUBSCRIPTION" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="SUBSCRIPTIONTYPEID" length="1" />
+            </key>
+            <one-to-many class="Subscription" />
+        </set>
+    </class>
+</hibernate-mapping>

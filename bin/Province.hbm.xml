@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-02-28 18:17:33 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="Province" table="PROVINCE" optimistic-lock="version">
+        <id name="provincecode" type="string">
+            <column name="PROVINCECODE" length="2" />
+            <generator class="assigned" />
+        </id>
+        <property name="name" type="string">
+            <column name="NAME" length="30" not-null="true" />
+        </property>
+        <set name="systemusers" table="SYSTEMUSER" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="PROVINCECODE" length="2" />
+            </key>
+            <one-to-many class="Systemuser" />
+        </set>
+    </class>
+</hibernate-mapping>

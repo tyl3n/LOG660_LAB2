@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-02-28 18:17:33 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="Systemuser" table="SYSTEMUSER" optimistic-lock="version">
+        <id name="systemuserid" type="big_decimal">
+            <column name="SYSTEMUSERID" precision="22" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="province" class="Province" fetch="select">
+            <column name="PROVINCECODE" length="2" />
+        </many-to-one>
+        <property name="lastname" type="string">
+            <column name="LASTNAME" not-null="true" />
+        </property>
+        <property name="firstname" type="string">
+            <column name="FIRSTNAME" not-null="true" />
+        </property>
+        <property name="email" type="string">
+            <column name="EMAIL" not-null="true" unique="true" />
+        </property>
+        <property name="phonenumber" type="string">
+            <column name="PHONENUMBER" length="15" not-null="true" />
+        </property>
+        <property name="birthdate" type="date">
+            <column name="BIRTHDATE" length="7" not-null="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="PASSWORD" not-null="true" />
+        </property>
+        <property name="civicnumber" type="big_decimal">
+            <column name="CIVICNUMBER" precision="22" scale="0" not-null="true" />
+        </property>
+        <property name="streetname" type="string">
+            <column name="STREETNAME" not-null="true" />
+        </property>
+        <property name="postalcode" type="string">
+            <column name="POSTALCODE" length="7" not-null="true" />
+        </property>
+        <property name="cityname" type="string">
+            <column name="CITYNAME" not-null="true" />
+        </property>
+        <one-to-one name="client" class="Client"></one-to-one>
+        <one-to-one name="employee" class="Employee"></one-to-one>
+    </class>
+</hibernate-mapping>

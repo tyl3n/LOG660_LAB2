@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+
+<table-filter match-name="BIOGRAPHY"></table-filter>
+	<table-filter match-name="CLIENT"></table-filter>
+	<table-filter match-name="COUNTRY"></table-filter>
+	<table-filter match-name="CREDITCARD"></table-filter>
+	<table-filter match-name="CREWMEMBER"></table-filter>
+	<table-filter match-name="EMPLOYEE"></table-filter>
+	<table-filter match-name="GENRE"></table-filter>
+	<table-filter match-name="MOVIE"></table-filter>
+	<table-filter match-name="MOVIEACTOR"></table-filter>
+	<table-filter match-name="MOVIECOPY"></table-filter>
+	<table-filter match-name="MOVIECOUNTRY"></table-filter>
+	<table-filter match-name="MOVIEGENRE"></table-filter>
+	<table-filter match-name="MOVIESCRIPTWRITER"></table-filter>
+	<table-filter match-name="PROVINCE"></table-filter>
+	<table-filter match-name="SCRIPTWRITER"></table-filter>
+	<table-filter match-name="SUBSCRIPTION"></table-filter>
+	<table-filter match-name="SUBSCRIPTIONTYPE"></table-filter>
+	<table-filter match-name="SYNOPSIS"></table-filter>
+	<table-filter match-name="SYSTEMUSER"></table-filter>
+</hibernate-reverse-engineering>
