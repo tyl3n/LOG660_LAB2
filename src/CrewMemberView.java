@@ -1,4 +1,9 @@
+import java.math.BigDecimal;
+import java.util.ArrayList;
 
+import javax.xml.soap.Text;
+
+import org.hibernate.Session;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -14,10 +19,33 @@ public class CrewMemberView extends javax.swing.JFrame {
     /**
      * Creates new form CrewMemberView
      */
+	Session session;
+	Crewmember c;
+	BigDecimal id;
     public CrewMemberView() {
         initComponents();
     }
-
+    public CrewMemberView(Session s,BigDecimal id) {
+    	this.id = id;
+    	this.session = s;
+        initComponents();
+        UpdateView();
+    }
+    public void UpdateView()
+    {
+    	CrewMemberDetailBroker cmdb = new CrewMemberDetailBroker(session);
+    	c = cmdb.GetCrewmemberById(id);
+    	if(c != null)
+    	{
+    		labelName.setText(c.getFirstname());
+    		labelBirthdate.setText(c.getBirthdate().toString());
+    		labelBirthplace.setText(c.getBirthplace().toString());
+    		//ArrayList<Biography> listDeString = new ArrayList<Biography>(c.getBiographies());
+    		//if (listDeString.size()>0)
+    		//textAreaBiography.setText(listDeString.get(0).getId().getDescription().toString());
+    	}
+    	
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,14 +56,14 @@ public class CrewMemberView extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        labelName = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        labelBirthdate = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        labelBirthplace = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        textAreaBiography = new javax.swing.JTextArea();
         jLabel8 = new javax.swing.JLabel();
         okButton = new javax.swing.JButton();
 
@@ -43,22 +71,22 @@ public class CrewMemberView extends javax.swing.JFrame {
 
         jLabel1.setText("Name");
 
-        jLabel2.setText("jLabel2");
+        labelName.setText("labelName");
 
         jLabel3.setText("Birth date");
 
-        jLabel4.setText("jLabel4");
+        labelBirthdate.setText("labelBirthdate");
 
         jLabel5.setText("Birthplace");
 
-        jLabel6.setText("jLabel6");
+        labelBirthplace.setText("labelBirthplace");
 
         jLabel7.setText("Biography");
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        textAreaBiography.setEditable(false);
+        textAreaBiography.setColumns(20);
+        textAreaBiography.setRows(5);
+        jScrollPane1.setViewportView(textAreaBiography);
 
         jLabel8.setFont(new java.awt.Font("Times New Roman", 3, 12)); // NOI18N
         jLabel8.setText("Cast member information");
@@ -88,9 +116,9 @@ public class CrewMemberView extends javax.swing.JFrame {
                                     .addComponent(jLabel5))
                                 .addGap(29, 29, 29)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addComponent(labelBirthplace, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+                                    .addComponent(labelBirthdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(labelName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(163, 163, 163)
@@ -105,14 +133,14 @@ public class CrewMemberView extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel2))
+                    .addComponent(labelName))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel4))
+                    .addComponent(labelBirthdate))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
+                    .addComponent(labelBirthplace)
                     .addComponent(jLabel5))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel7)
@@ -133,15 +161,15 @@ public class CrewMemberView extends javax.swing.JFrame {
   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel labelName;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel labelBirthdate;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel labelBirthplace;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea textAreaBiography;
     private javax.swing.JButton okButton;
     // End of variables declaration//GEN-END:variables
 }

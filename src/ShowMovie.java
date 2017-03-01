@@ -7,6 +7,7 @@
 import java.awt.Color;
 import java.awt.LayoutManager;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.DefaultListModel;
@@ -31,8 +32,11 @@ public class ShowMovie extends javax.swing.JFrame {
 	private Movie m;
 	private String title;
 	private int movieId;
-	DefaultListModel<String> listmodel = new DefaultListModel<>();
-	DefaultTableModel tablemodel = new DefaultTableModel(
+	ArrayList<BigDecimal> listIDCrewmember;
+	DefaultListModel<String> countrylistmodel = new DefaultListModel<>();
+	DefaultListModel<String> writerlistmodel = new DefaultListModel<>();
+	DefaultListModel<String> genreListModel = new DefaultListModel<>();
+	DefaultTableModel actorTableModel = new DefaultTableModel(
             new Object [][] {
             },
             new String [] {
@@ -85,14 +89,36 @@ public class ShowMovie extends javax.swing.JFrame {
         yearLabel.setText(m.getReleaseyear().toPlainString());
         Iterator iMovieActor = m.getMovieactors().iterator();
         //Iterator iMovieActorId = m.getMovieactors_1().iterator();
+        listIDCrewmember = new  ArrayList<BigDecimal>();
         while(iMovieActor.hasNext())
         {
             Movieactor movieActor = (Movieactor) iMovieActor.next();
             //MovieactorId movieActorId = (MovieactorId) iMovieActorId.next();
             Crewmember cm = movieActor.getCrewmember();
-            Object[]  rowData = {cm.getFirstname(), movieActor.getId().getCharacter()};
-            tablemodel.addRow(rowData);
+            Object[]  rowData = {cm.getFirstname(), movieActor.getId().getCharacter(), movieActor.getCrewmember().getCrewmemberid()};
+            actorTableModel.addRow(rowData);
+            listIDCrewmember.add(movieActor.getCrewmember().getCrewmemberid());
         }
+        Iterator iCountry = m.getCountries().iterator();
+        while(iCountry.hasNext())
+        {
+            Country country = (Country) iCountry.next();
+           countrylistmodel.addElement(country.getName());
+        }
+        Iterator iWriter = m.getScriptwriters().iterator();
+        while(iWriter.hasNext())
+        {
+            Scriptwriter scriptwriter = (Scriptwriter) iWriter.next();
+            writerlistmodel.addElement(scriptwriter.getFirstname());
+        }
+        Iterator iGenre = m.getGenres().iterator();
+        while(iGenre.hasNext())
+        {
+            Genre genre = (Genre) iGenre.next();
+            genreListModel.addElement(genre.getName());
+        }
+        synopsisTextArea.setText(m.getSynopsis().getDescription());
+       
 
     	//titleLabel.setText("Title");
     }
@@ -106,9 +132,9 @@ public class ShowMovie extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        actorList = new javax.swing.JList<>();
+        countryList = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        synopsisTextArea = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         directorLabel = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -126,21 +152,17 @@ public class ShowMovie extends javax.swing.JFrame {
         yearLabel = new javax.swing.JLabel();
         rentButton = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        actorTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        actorList.setModel(listmodel);/*new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });*/
-        jScrollPane1.setViewportView(actorList);
+        countryList.setModel(countrylistmodel);
+        jScrollPane1.setViewportView(countryList);
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        synopsisTextArea.setEditable(false);
+        synopsisTextArea.setColumns(20);
+        synopsisTextArea.setRows(5);
+        jScrollPane2.setViewportView(synopsisTextArea);
 
         jLabel1.setText("Director");
 
@@ -163,11 +185,7 @@ public class ShowMovie extends javax.swing.JFrame {
             }
         });
 
-        genreList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        genreList.setModel(genreListModel);
         jScrollPane3.setViewportView(genreList);
 
         jLabel5.setText("Genre");
@@ -176,11 +194,7 @@ public class ShowMovie extends javax.swing.JFrame {
 
         //FillUpForm(title,movieId);
 
-        writerList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        writerList.setModel(writerlistmodel);
         jScrollPane4.setViewportView(writerList);
 
         jLabel8.setText("ScriptWriter");
@@ -191,13 +205,13 @@ public class ShowMovie extends javax.swing.JFrame {
 
         rentButton.setLabel("Rent Movie");
 
-        jTable1.setModel(tablemodel);
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+        actorTable.setModel(actorTableModel);
+        actorTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
+                actorTableMouseClicked(evt);
             }
         });
-        jScrollPane5.setViewportView(jTable1);
+        jScrollPane5.setViewportView(actorTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -301,15 +315,16 @@ public class ShowMovie extends javax.swing.JFrame {
        this.dispose();
     }//GEN-LAST:event_returnButtonActionPerformed
 
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+    private void actorTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actorTableMouseClicked
         // TODO add your handling code here:
              
         if (evt.getClickCount() == 2) {
            JTable target = (JTable)evt.getSource();
            int row = target.getSelectedRow();
-           new CrewMemberView().setVisible(true);
+           BigDecimal id = listIDCrewmember.get(row);
+           new CrewMemberView(session,id).setVisible(true);
         }
-    }//GEN-LAST:event_jTable1MouseClicked
+    }//GEN-LAST:event_actorTableMouseClicked
 
     private void directorLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_directorLabelMouseClicked
         // TODO add your handling code here:
@@ -348,7 +363,7 @@ public class ShowMovie extends javax.swing.JFrame {
     }*/
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList<String> actorList;
+    private javax.swing.JList<String> countryList;
     private javax.swing.JLabel directorLabel;
     private javax.swing.JList<String> genreList;
     private javax.swing.JLabel jLabel1;
@@ -363,8 +378,8 @@ public class ShowMovie extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTable actorTable;
+    private javax.swing.JTextArea synopsisTextArea;
     private javax.swing.JButton rentButton;
     private javax.swing.JButton returnButton;
     private javax.swing.JLabel titleLabel;
