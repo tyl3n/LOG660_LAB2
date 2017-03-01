@@ -1,21 +1,15 @@
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import javax.persistence.criteria.CriteriaQuery;
-
 import org.hibernate.Criteria;
-import org.hibernate.Query;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Disjunction;
-import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.Subqueries;
 
 public class MovieInfoBroker {
 	Session session;
@@ -24,12 +18,12 @@ public class MovieInfoBroker {
 		this.session = session;
 	}
 	
-	public List getMoviesFromCriteria(String[] titleKeywords,
-			ArrayList<String> countryKeywords,
-			ArrayList<String> languageKeywords,
-			ArrayList<String> genreKeywords,
-			ArrayList<String> directorKeywords,
-			ArrayList<String> actorKeywords,
+	public Movie[] getMoviesFromCriteria(String[] titleKeywords,
+			String[] countryKeywords,
+			String[] languageKeywords,
+			String[] genreKeywords,
+			String[] directorKeywords,
+			String[] actorKeywords,
 			Integer minYear,
 			Integer maxYear) {
 		
@@ -111,20 +105,6 @@ public class MovieInfoBroker {
 		movieCriteria.add(andQuery);
 		movieCriteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
-		List movies = movieCriteria.list();
-		
-		System.out.println(movies.size());
-		
-		if (movies.size() > 0) {
-			Iterator movieIter = movies.iterator();
-			Movie movie;
-			
-			while (movieIter.hasNext()) {
-				movie = (Movie)movieIter.next();
-				System.out.println(movie.getTitle());
-			}
-		}
-		
-		return movies;
+		return (Movie[])movieCriteria.list().toArray(new Movie[0]);
 	}
 }

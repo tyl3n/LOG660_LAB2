@@ -292,7 +292,7 @@ public class ShowMovie extends javax.swing.JFrame {
        if(sm == null ) {           
             java.awt.EventQueue.invokeLater(new Runnable() {
                 public void run() {
-                    new SearchMovies();
+                    new SearchMovies(session);
                 }
             });
         }else

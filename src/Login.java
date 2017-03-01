@@ -138,7 +138,7 @@ public class Login extends javax.swing.JFrame {
      			{
      		        java.awt.EventQueue.invokeLater(new Runnable() {
      		            public void run() {
-     		                new SearchMovies();
+     		                new SearchMovies(session);
      		            }
      		        });
      		        this.dispose();
@@ -151,7 +151,7 @@ public class Login extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void init(String args[]) {
+    public void init(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

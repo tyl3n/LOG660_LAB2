@@ -19,7 +19,6 @@ public class SearchMovies extends javax.swing.JFrame {
     /**
      * Creates new form SearchMovies
      */
-	private Session session;
     SearchMovies sm;
     public SearchMovies(Session session) {
         initComponents();
@@ -72,10 +71,40 @@ public class SearchMovies extends javax.swing.JFrame {
         searchButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MovieInfoBroker movieInfoBroker = new MovieInfoBroker(session);
-				String[] titleKeywords = titleTextField.getText().trim().split(" +");
+				String[] titleKeywords = titleTextField.getText().trim().isEmpty() ? null : titleTextField.getText().trim().split(" +");
+				String[] countryKeywords = countryTextField.getText().trim().isEmpty() ? null : countryTextField.getText().trim().split(" +");
+				String[] languageKeywords = langTextField.getText().trim().isEmpty() ? null : langTextField.getText().trim().split(" +");
+				String[] genreKeywords = genreTextField.getText().trim().isEmpty() ? null : genreTextField.getText().trim().split(" +");
+				String[] directorKeywords = directorTextField.getText().trim().isEmpty() ? null : directorTextField.getText().trim().split(" +");
+				String[] actorKeywords = actorTextField.getText().trim().isEmpty() ? null : actorTextField.getText().trim().split(" +");
+				Integer minYear;
+				Integer maxYear;
 				
+				try {
+					minYear = Integer.parseInt(yearFromTextField.getText());
+				} catch (NumberFormatException err) {
+					minYear = null;
+				}
 				
-				movieInfoBroker.getMoviesFromCriteria(titleKeywords, countryKeywords, languageKeywords, genreKeywords, directorKeywords, actorKeywords, minYear, maxYear)
+				try {
+					maxYear = Integer.parseInt(yearFromTextField.getText());
+				} catch (NumberFormatException err) {
+					maxYear = null;
+				}
+				
+				Movie[] movies = movieInfoBroker.getMoviesFromCriteria(titleKeywords, countryKeywords, languageKeywords, genreKeywords, directorKeywords, actorKeywords, minYear, maxYear);
+				
+				for (Movie movie : movies) {
+					System.out.println(movie.getTitle());
+					
+					for (Object actorObject : movie.getMovieactors()) {
+						//System.out.println(((Movieactor)actorObject).getCrewmember().getFirstname() + " " + ((Movieactor)actorObject).getCrewmember().getLastname());
+					}
+					
+					(DefaultTableModel) moviesTable.getModel()
+				}
+				
+				System.out.println("MovieCount: " + movies.length);
 			}
         });
 
