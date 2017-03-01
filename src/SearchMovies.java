@@ -6,7 +6,7 @@
 import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-
+import java.util.Arrays;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -107,29 +107,32 @@ public class SearchMovies extends javax.swing.JFrame {
 				
 				try {
 					minYear = Integer.parseInt(yearFromTextField.getText());
+					System.out.println(minYear);
 				} catch (NumberFormatException err) {
 					minYear = null;
 				}
 				
 				try {
-					maxYear = Integer.parseInt(yearFromTextField.getText());
+					maxYear = Integer.parseInt(yearToTextField.getText());
 				} catch (NumberFormatException err) {
 					maxYear = null;
 				}
 				
 				Movie[] movies = movieInfoBroker.getMoviesFromCriteria(titleKeywords, countryKeywords, languageKeywords, genreKeywords, directorKeywords, actorKeywords, minYear, maxYear);
-				
+
 				for (int i = 0; i < movieInfoTableModel.getRowCount(); i++) {
 					movieInfoTableModel.removeRow(i);
 				}
+				
 				listIDFilm.clear();
+
+				movieInfoTableModel.setRowCount(0);
+
 				for (Movie movie : movies) {
 					Object[] rowData = {movie.getTitle(), movie.getReleaseyear(), movie.getCrewmember().getFirstname() + ' ' + movie.getCrewmember().getLastname()};
 					movieInfoTableModel.addRow(rowData);
 					listIDFilm.add(movie.getMovieid());
 				}
-				
-				System.out.println("MovieCount: " + movies.length);
 			}
         });
 
