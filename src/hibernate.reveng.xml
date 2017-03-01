@@ -3,6 +3,7 @@
 
 <hibernate-reverse-engineering>
 
+
 <table-filter match-name="BIOGRAPHY"></table-filter>
 	<table-filter match-name="CLIENT"></table-filter>
 	<table-filter match-name="COUNTRY"></table-filter>

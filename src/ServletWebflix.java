@@ -6,9 +6,8 @@ import java.io.StringWriter;
 import java.sql.Connection;
 import oracle.jdbc.pool.*;
 import javax.naming.Context;
-2
 import javax.naming.InitialContext;
-public class ServletWebflix extends HttpServlet {
+public class ServletWebflix {/* extends HttpServlet {
 // Initialisation du parent
 public void init(ServletConfig config) throws ServletException {
 super.init(config);
@@ -80,5 +79,5 @@ catch(Exception lException){
 lException.printStackTrace();
 }
 }
-}
+}*/
 }
