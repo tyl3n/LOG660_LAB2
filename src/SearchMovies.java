@@ -3,22 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import java.awt.event.ActionEvent;
+
 import javax.swing.JTable;
+
+import org.hibernate.Session;
 
 /**
  *
  * @author jeanym
  */
 public class SearchMovies extends javax.swing.JFrame {
-
+	Session session;
+	
     /**
      * Creates new form SearchMovies
      */
     SearchMovies sm;
-    public SearchMovies() {
+    public SearchMovies(Session session) {
         initComponents();
         sm = this;
         sm.setVisible(true);
+        this.session = session;
     }
 
     /**
@@ -36,7 +42,7 @@ public class SearchMovies extends javax.swing.JFrame {
         countryTextField = new javax.swing.JTextField();
         actorTextField = new javax.swing.JTextField();
         yearToTextField = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        searchButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -61,8 +67,18 @@ public class SearchMovies extends javax.swing.JFrame {
                 actorTextFieldActionPerformed(evt);
             }
         });
+        
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MovieInfoBroker movieInfoBroker = new MovieInfoBroker(session);
+				String[] titleKeywords = titleTextField.getText().trim().split(" +");
+				
+				
+				movieInfoBroker.getMoviesFromCriteria(titleKeywords, countryKeywords, languageKeywords, genreKeywords, directorKeywords, actorKeywords, minYear, maxYear)
+			}
+        });
 
-        jButton1.setText("Search");
+        searchButton.setText("Search");
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         jLabel1.setText("Search for movies");
@@ -131,7 +147,7 @@ public class SearchMovies extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1))
+                        .addComponent(searchButton))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -202,7 +218,7 @@ public class SearchMovies extends javax.swing.JFrame {
                     .addComponent(directorTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(searchButton)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -234,7 +250,7 @@ public class SearchMovies extends javax.swing.JFrame {
     private javax.swing.JTextField countryTextField;
     private javax.swing.JTextField directorTextField;
     private javax.swing.JTextField genreTextField;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton searchButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

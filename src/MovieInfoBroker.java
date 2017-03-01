@@ -24,7 +24,7 @@ public class MovieInfoBroker {
 		this.session = session;
 	}
 	
-	public List getMoviesFromCriteria(ArrayList<String> titleKeywords,
+	public List getMoviesFromCriteria(String[] titleKeywords,
 			ArrayList<String> countryKeywords,
 			ArrayList<String> languageKeywords,
 			ArrayList<String> genreKeywords,
