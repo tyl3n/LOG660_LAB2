@@ -4,19 +4,13 @@
  * and open the template in the editor.
  */
 
-import java.awt.Color;
-import java.awt.LayoutManager;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.DefaultListModel;
-import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 import org.hibernate.Session;

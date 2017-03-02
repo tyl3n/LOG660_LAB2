@@ -1,8 +1,6 @@
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Conjunction;
@@ -27,20 +25,18 @@ public class MovieRentBroker {
 		Moviecopy thisCopy = GetMovieFromID(movieId);
 		System.out.println("thisSub count"  + thisSub.getSubscriptiontype().getMaxrentals().intValue());
 		System.out.println("thisClient count"  + thisClient.getMoviecopies().size());
-		//System.out.println("thisCopy count"  + thisCopy.getMovie().getTitle());
+		
 		if(thisSub == null)
 			return -1;
 		if(thisClient.getMoviecopies().size() >= thisSub.getSubscriptiontype().getMaxrentals().intValue())
 			return -2;
 		if(thisCopy == null)
 			return -3;
-		//Update Moviecopy Object
+		
 		session.beginTransaction();
 		thisCopy.setClient(thisClient);
 		thisCopy.setRentaldate(new Date());
-		//Save the Moviecopy in database
 		session.save(thisCopy);
-		//Commit the transaction
 		session.getTransaction().commit();
 		return 0;
 	}
@@ -77,21 +73,17 @@ public class MovieRentBroker {
 		andQuery.add(Restrictions.eq("mc.movie.movieid",movieId));
 		andQuery.add(Restrictions.isNull("mc.client.systemuserid"));
 
-		
-		
-		//andQuery.add(orQuery);
 		movieCriteria.add(andQuery);
 		
 		List movies = movieCriteria.list();
 		
-		System.out.println("movie count"  + movies.size());
-		if (movies.size()>0)
-		{
+		if (movies.size() > 0) {
 			Moviecopy m = (Moviecopy) movies.get(0);
 			return m;
 		}
-		else
+		else {
 			return null;
+		}
 	}
 
 }
